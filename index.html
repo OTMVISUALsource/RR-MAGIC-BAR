@@ -84,6 +84,8 @@ body.locked img:not(#out):not(#hot){pointer-events:none}
 #pinm h3{margin:0;font-family:Pacifico,cursive;font-weight:400;color:var(--deep);font-size:24px}
 #pinm input{font:600 28px Poppins,sans-serif;text-align:center;letter-spacing:10px;border:2px solid var(--line);border-radius:14px;padding:10px;background:var(--bg);color:var(--ink);width:100%}
 #pinm .row{display:flex;gap:10px;justify-content:center}#pe{color:#d6336c;min-height:1.2em;font-size:14px}
+#phase{position:absolute;top:3%;left:50%;transform:translateX(-50%);width:max-content;max-width:94%;text-align:center;background:#fff;color:#c2185b;font:700 clamp(11px,3vw,15px) Poppins,sans-serif;padding:6px 14px;border-radius:999px;box-shadow:0 4px 14px #0004;z-index:4}
+#phase.brk{background:#e9d9fb;color:#5b2d9e}
 </style></head><body>
 
 <div id="lang"><button data-l="en" class="sel">EN</button><button data-l="es">ES</button></div>
@@ -102,10 +104,11 @@ body.locked img:not(#out):not(#hot){pointer-events:none}
  <div id="props"><div class="glow" data-t="props1"></div><small data-t="props2"></small></div>
  <div id="vf" class="mirror"><video id="v" playsinline muted autoplay></video><div id="tint"></div><canvas id="pv" hidden></canvas>
   <div id="nocam" hidden><div><b style="font-size:20px" data-t="needcam"></b><p data-t="needcam2"></p><button class="big" id="allow" data-t="allowbtn"></button><p id="why"></p></div></div>
-  <div id="cd" hidden></div><div id="msg" hidden></div><div id="fl"></div></div>
+  <div id="cd" hidden></div><div id="msg" hidden></div><div id="phase" hidden></div><div id="fl"></div></div>
  <div class="seg" id="flt"><button data-f="none" class="sel" data-t="f_none"></button><button data-f="bw" data-t="f_bw"></button><button data-f="rainbow" data-t="f_rainbow"></button><button data-f="pink" data-t="f_pink"></button></div>
  <div class="seg" id="zm"><button data-z="1" class="sel" data-t="zwide"></button><button data-z="1.6" data-t="z1"></button><button data-z="2.3" data-t="z2"></button></div>
  <div class="seg" id="mode"><button data-m="auto" class="sel" data-t="auto"></button><button data-m="manual" data-t="manual"></button></div>
+ <div class="seg" id="mir"><button data-mi="0" class="sel" data-t="mir0"></button><button data-mi="1" data-t="mir1"></button></div>
  <div class="slots" id="slots"></div>
  <div class="ctl"><button class="shut" id="shut" aria-label="Photo"></button></div>
  <p id="hint" data-t="hint"></p>
@@ -120,7 +123,7 @@ body.locked img:not(#out):not(#hot){pointer-events:none}
  </div>
 </section>
 <img id="hot" alt="" draggable="false">
-<div id="pinm" hidden><div class="card"><h3 id="pt"></h3><p id="pd"></p><input id="pi" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••"><p id="pe"></p><div class="row"><button id="pc" data-t="cancel"></button><button class="big" id="po" style="padding:12px 26px"></button></div></div></div>
+<div id="pinm" hidden><div class="card"><h3 id="pt"></h3><p id="pd"></p><p id="pg" style="font-size:12px"></p><input id="pi" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="••••"><p id="pe"></p><div class="row"><button id="pc" data-t="cancel"></button><button class="big" id="po" style="padding:12px 26px"></button></div></div></div>
 <div id="ring"></div><div id="toast"></div>
 
 <script>
@@ -145,14 +148,14 @@ const T=[
 ["fam","Besties","#d8f3ff","#b9a6ff","#4c2fa0","#ffffff","spark","Besties"],
 ["fam","Squad Goals","#ffe0f0","#ffb199","#b03060","#ffffff","dot","Squad Goals"],
 ["fam","Memories","#f5efe6","#e6d8c3","#5b4636","#ffffff","heart","Making Memories"]];
-const L={en:{h1:"Photo Booth",tag:"Pick a style, strike a pose, take home your strip.",start:"Start the booth",back:"Back",pick:"Pick your style",howmany:"How many photos?",photos:"photos",one:"1 photo",use:"Use this style",cheese:"Say cheese!",flip:"Flip",props1:"MAKE SURE TO USE OUR PROPS FOR BETTER PHOTOS!",props2:"Please put the props back in their area.",f_none:"Regular",f_bw:"Black & White",f_rainbow:"Rainbow",f_pink:"Pink Girly",zwide:"Wide",z1:"Zoom 1",z2:"Zoom 2",auto:"Auto timer",manual:"Tap to snap",hint:"Tap the button to start. Before every photo you get 6 seconds to grab a prop, then a 5-second countdown.",hintm:"Tap the button (or the screen) to take each photo.",needcam:"Camera access needed",needcam2:"Allow the camera so we can take your photos right here.",allowbtn:"Allow camera",allow1:"Choose Allow when your browser asks.",https:"Open this page in Safari or Chrome over https.",blocked:"Camera is blocked. Allow it in your browser (address bar icon, or Settings > Safari > Camera), then tap Allow camera again.",nocam:"No camera found on this device.",fail:"Could not start the camera. Close other apps using it and tap Allow camera.",m1:"Smile at this moment!",m2:"Enjoy this picture!",m3:"Do your best pose!",ready:"Get ready! Grab a prop. This is not a photo yet!",photo:"Photo",of:"of",look:"Look at you!",tip:"Tip: press and hold the picture to save it to Photos.",save:"Save",share:"Share / AirDrop",email:"Email",retake:"Retake",restyle:"New style",done:"Finish",saved:"Saved! If nothing downloaded, press and hold the picture.",noshare:"Sharing isn't available here, so the photo was saved instead.",subj:"Our RR Magic Bar photos",body:"Attach the photo you just saved. Made at RR Magic Bar!",c_pink:"Girly Pink",c_bw:"Black & White",c_hearts:"Hearts",c_fam:"Family & Friends",cancel:"Cancel",lockT:"Lock the booth",lockD:"Optional: set a 4-digit PIN to unlock. Leave empty to unlock with 3 taps only.",lockB:"Lock",unlockT:"Unlock the booth",unlockD:"Enter the PIN to unlock.",unlockB:"Unlock",wrong:"Wrong PIN",pin4:"PIN must be 4 digits",lockedT:"Booth locked",unlockedT:"Booth unlocked"},
-es:{h1:"Cabina de Fotos",tag:"Elige un estilo, haz tu mejor pose y llévate tu tira de fotos.",start:"Iniciar la cabina",back:"Atrás",pick:"Elige tu estilo",howmany:"¿Cuántas fotos?",photos:"fotos",one:"1 foto",use:"Usar este estilo",cheese:"¡Sonríe!",flip:"Girar",props1:"¡USA NUESTROS ACCESORIOS PARA MEJORES FOTOS!",props2:"Por favor, devuelve los accesorios a su lugar.",f_none:"Normal",f_bw:"Blanco y Negro",f_rainbow:"Arcoíris",f_pink:"Rosa Chic",zwide:"Amplio",z1:"Zoom 1",z2:"Zoom 2",auto:"Temporizador",manual:"Toca para tomar",hint:"Toca el botón para empezar. Antes de cada foto tienes 6 segundos para tomar un accesorio y luego una cuenta de 5 segundos.",hintm:"Toca el botón (o la pantalla) para tomar cada foto.",needcam:"Se necesita acceso a la cámara",needcam2:"Permite la cámara para tomar tus fotos aquí mismo.",allowbtn:"Permitir cámara",allow1:"Elige Permitir cuando tu navegador lo pida.",https:"Abre esta página en Safari o Chrome con https.",blocked:"La cámara está bloqueada. Permítela en tu navegador (icono de la barra de direcciones, o Ajustes > Safari > Cámara) y toca Permitir cámara otra vez.",nocam:"No se encontró ninguna cámara en este dispositivo.",fail:"No se pudo iniciar la cámara. Cierra otras apps que la usen y toca Permitir cámara.",m1:"¡Sonríe en este momento!",m2:"¡Disfruta esta foto!",m3:"¡Haz tu mejor pose!",ready:"¡Prepárate! Toma un accesorio. ¡Todavía no es la foto!",photo:"Foto",of:"de",look:"¡Qué bien te ves!",tip:"Consejo: mantén presionada la imagen para guardarla en Fotos.",save:"Guardar",share:"Compartir / AirDrop",email:"Correo",retake:"Repetir",restyle:"Nuevo estilo",done:"Terminar",saved:"¡Guardado! Si no se descargó, mantén presionada la imagen.",noshare:"Aquí no se puede compartir, así que se guardó la foto.",subj:"Nuestras fotos de RR Magic Bar",body:"Adjunta la foto que acabas de guardar. ¡Hecho en RR Magic Bar!",c_pink:"Rosa Chic",c_bw:"Blanco y Negro",c_hearts:"Corazones",c_fam:"Familia y Amigos",cancel:"Cancelar",lockT:"Bloquear la cabina",lockD:"Opcional: crea un PIN de 4 dígitos para desbloquear. Déjalo vacío para desbloquear solo con 3 toques.",lockB:"Bloquear",unlockT:"Desbloquear la cabina",unlockD:"Ingresa el PIN para desbloquear.",unlockB:"Desbloquear",wrong:"PIN incorrecto",pin4:"El PIN debe tener 4 dígitos",lockedT:"Cabina bloqueada",unlockedT:"Cabina desbloqueada"}};
+const L={en:{h1:"Photo Booth",tag:"Pick a style, strike a pose, take home your strip.",start:"Start the booth",back:"Back",pick:"Pick your style",howmany:"How many photos?",photos:"photos",one:"1 photo",use:"Use this style",cheese:"Say cheese!",flip:"Flip",props1:"MAKE SURE TO USE OUR PROPS FOR BETTER PHOTOS!",props2:"Please put the props back in their area.",f_none:"Regular",f_bw:"Black & White",f_rainbow:"Rainbow",f_pink:"Pink Girly",zwide:"Wide",z1:"Zoom 1",z2:"Zoom 2",auto:"Auto timer",manual:"Tap to snap",hint:"Tap the button to start. Before every photo you get 6 seconds to grab a prop, then a 5-second countdown.",hintm:"Tap the button (or the screen) to take each photo.",needcam:"Camera access needed",needcam2:"Allow the camera so we can take your photos right here.",allowbtn:"Allow camera",allow1:"Choose Allow when your browser asks.",https:"Open this page in Safari or Chrome over https.",blocked:"Camera is blocked. Allow it in your browser (address bar icon, or Settings > Safari > Camera), then tap Allow camera again.",nocam:"No camera found on this device.",fail:"Could not start the camera. Close other apps using it and tap Allow camera.",m1:"Smile at this moment!",m2:"Enjoy this picture!",m3:"Do your best pose!",ready:"Get ready! Grab a prop. This is not a photo yet!",photo:"Photo",of:"of",look:"Look at you!",tip:"Tip: press and hold the picture to save it to Photos.",save:"Save",share:"Share / AirDrop",email:"Email",retake:"Retake",restyle:"New style",done:"Finish",saved:"Saved! If nothing downloaded, press and hold the picture.",noshare:"Sharing isn't available here, so the photo was saved instead.",subj:"Our RR Magic Bar photos",body:"Attach the photo you just saved. Made at RR Magic Bar!",c_pink:"Girly Pink",c_bw:"Black & White",c_hearts:"Hearts",c_fam:"Family & Friends",cancel:"Cancel",p1:"Get ready!",p2:"Grab a prop!",p3:"Find your spot!",p4:"Get in position!",p5:"Photo coming up soon!",phase1:"PREPARING · NOT A PHOTO YET",phase2:"PHOTO COUNTDOWN · POSE!",mir0:"Photo text readable",mir1:"Mirror photo",lockTip:"Tip: for a full device lock, also turn on Guided Access (iPhone/iPad) or Screen Pinning (Android).",lockT:"Lock the booth",lockD:"Optional: set a 4-digit PIN to unlock. Leave empty to unlock with 3 taps only.",lockB:"Lock",unlockT:"Unlock the booth",unlockD:"Enter the PIN to unlock.",unlockB:"Unlock",wrong:"Wrong PIN",pin4:"PIN must be 4 digits",lockedT:"Booth locked",unlockedT:"Booth unlocked"},
+es:{h1:"Cabina de Fotos",tag:"Elige un estilo, haz tu mejor pose y llévate tu tira de fotos.",start:"Iniciar la cabina",back:"Atrás",pick:"Elige tu estilo",howmany:"¿Cuántas fotos?",photos:"fotos",one:"1 foto",use:"Usar este estilo",cheese:"¡Sonríe!",flip:"Girar",props1:"¡USA NUESTROS ACCESORIOS PARA MEJORES FOTOS!",props2:"Por favor, devuelve los accesorios a su lugar.",f_none:"Normal",f_bw:"Blanco y Negro",f_rainbow:"Arcoíris",f_pink:"Rosa Chic",zwide:"Amplio",z1:"Zoom 1",z2:"Zoom 2",auto:"Temporizador",manual:"Toca para tomar",hint:"Toca el botón para empezar. Antes de cada foto tienes 6 segundos para tomar un accesorio y luego una cuenta de 5 segundos.",hintm:"Toca el botón (o la pantalla) para tomar cada foto.",needcam:"Se necesita acceso a la cámara",needcam2:"Permite la cámara para tomar tus fotos aquí mismo.",allowbtn:"Permitir cámara",allow1:"Elige Permitir cuando tu navegador lo pida.",https:"Abre esta página en Safari o Chrome con https.",blocked:"La cámara está bloqueada. Permítela en tu navegador (icono de la barra de direcciones, o Ajustes > Safari > Cámara) y toca Permitir cámara otra vez.",nocam:"No se encontró ninguna cámara en este dispositivo.",fail:"No se pudo iniciar la cámara. Cierra otras apps que la usen y toca Permitir cámara.",m1:"¡Sonríe en este momento!",m2:"¡Disfruta esta foto!",m3:"¡Haz tu mejor pose!",ready:"¡Prepárate! Toma un accesorio. ¡Todavía no es la foto!",photo:"Foto",of:"de",look:"¡Qué bien te ves!",tip:"Consejo: mantén presionada la imagen para guardarla en Fotos.",save:"Guardar",share:"Compartir / AirDrop",email:"Correo",retake:"Repetir",restyle:"Nuevo estilo",done:"Terminar",saved:"¡Guardado! Si no se descargó, mantén presionada la imagen.",noshare:"Aquí no se puede compartir, así que se guardó la foto.",subj:"Nuestras fotos de RR Magic Bar",body:"Adjunta la foto que acabas de guardar. ¡Hecho en RR Magic Bar!",c_pink:"Rosa Chic",c_bw:"Blanco y Negro",c_hearts:"Corazones",c_fam:"Familia y Amigos",cancel:"Cancelar",p1:"¡Prepárate!",p2:"¡Toma un accesorio!",p3:"¡Busca tu lugar!",p4:"¡Colócate en posición!",p5:"¡La foto viene pronto!",phase1:"PREPARÁNDOSE · AÚN NO ES LA FOTO",phase2:"CUENTA REGRESIVA · ¡POSA!",mir0:"Texto legible en la foto",mir1:"Foto en espejo",lockTip:"Consejo: para un bloqueo total del dispositivo, activa también Acceso Guiado (iPhone/iPad) o Fijar pantalla (Android).",lockT:"Bloquear la cabina",lockD:"Opcional: crea un PIN de 4 dígitos para desbloquear. Déjalo vacío para desbloquear solo con 3 toques.",lockB:"Bloquear",unlockT:"Desbloquear la cabina",unlockD:"Ingresa el PIN para desbloquear.",unlockB:"Desbloquear",wrong:"PIN incorrecto",pin4:"El PIN debe tener 4 dígitos",lockedT:"Cabina bloqueada",unlockedT:"Cabina desbloqueada"}};
 const ES_T={"Bubblegum":["Chicle","Vibras Rosa"],"Princess":["Princesa","Linda en Rosa"],"Glam Girl":["Chica Glam","Chica Glam"],"Cotton Candy":["Algodón de Azúcar","Dulces Sueños"],"Classic":["Clásico","Cabina de Fotos"],"Noir":["Noir","Después de Oscuro"],"Checker":["Ajedrez","¡Clic!"],"Polka":["Lunares","Clic Clic"],"Love Love":["Amor Amor","Amor Amor Amor"],"Be Mine":["Sé Mía","Sé Mío"],"Lavender XOXO":["Lavanda XOXO","XOXO"],"Black Hearts":["Corazones Negros","Latido"],"Family Fun":["Diversión Familiar","Diversión en Familia"],"Besties":["Mejores Amigas","Mejores Amigas"],"Squad Goals":["Equipo Estrella","Meta de Equipo"],"Memories":["Recuerdos","Creando Recuerdos"]};
 let lang="en";const tr=k=>L[lang][k]||L.en[k]||k,tn=t=>lang=="es"?ES_T[t[1]][0]:t[1],tt=t=>lang=="es"?ES_T[t[1]][1]:t[7];
 const hintTxt=()=>tr(S.mode=="manual"?"hintm":"hint");
 function drawLay(){$('#lay').innerHTML=[5,4,3,2,1].map(n=>`<button data-n="${n}" class="${n==S.n?'sel':''}">${n==1?tr('one'):n+' '+tr('photos')}</button>`).join('')}
 function setLang(l){lang=l;document.documentElement.lang=l;document.querySelectorAll('[data-t]').forEach(e=>e.textContent=tr(e.dataset.t));[...$('#lang').children].forEach(b=>b.classList.toggle('sel',b.dataset.l==l));drawLay();drawTabs();if($('#sty').classList.contains('on'))drawGrid();if(!S.busy&&!S.live)$('#hint').textContent=hintTxt();try{localStorage.setItem('rrl',l)}catch(e){}}
-const S={cat:"pink",t:0,n:5,photos:[],facing:"user",stream:null,busy:false,blob:null,filter:"none",mode:"auto",live:false,snapping:false,run:0};
+const S={cat:"pink",t:0,n:5,photos:[],facing:"user",stream:null,busy:false,blob:null,filter:"none",mode:"auto",live:false,snapping:false,run:0,mirror:false};
 
 function heart(c,x,y,s){c.beginPath();c.moveTo(x,y+s*.3);c.bezierCurveTo(x,y-s*.2,x-s*.6,y-s*.2,x-s*.6,y+s*.3);c.bezierCurveTo(x-s*.6,y+s*.7,x,y+s*.9,x,y+s*1.1);c.bezierCurveTo(x,y+s*.9,x+s*.6,y+s*.7,x+s*.6,y+s*.3);c.bezierCurveTo(x+s*.6,y-s*.2,x,y-s*.2,x,y+s*.3);c.fill()}
 function star(c,x,y,r){c.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/2,d=i%2?r*.28:r;c.lineTo(x+Math.cos(a)*d,y+Math.sin(a)*d)}c.closePath();c.fill()}
@@ -216,7 +219,7 @@ function crop(){const w=v.videoWidth,h=v.videoHeight;let sw=w,sh=w*3/4;if(sh>h){
 function grab(){const[sw,sh,ox,oy]=crop(),z=Z.z,m=S.facing=="user",zw=sw/z,zh=sh/z,cxs=m?1-Z.cx:Z.cx;
  const sx=ox+Math.min(sw-zw,Math.max(0,cxs*sw-zw/2)),sy=oy+Math.min(sh-zh,Math.max(0,Z.cy*sh-zh/2));
  const cw=Math.round(Math.min(zw,2400)),c=document.createElement('canvas');c.width=cw;c.height=Math.round(cw*3/4);const x=c.getContext('2d');x.imageSmoothingQuality='high';
- if(m){x.translate(cw,0);x.scale(-1,1)}x.drawImage(v,sx,sy,zw,zh,0,0,c.width,c.height);return applyFilter(c,S.filter)}
+ if(m&&S.mirror){x.translate(cw,0);x.scale(-1,1)}x.drawImage(v,sx,sy,zw,zh,0,0,c.width,c.height);return applyFilter(c,S.filter)}
 async function track(){if(Z.z<=1||!S.stream||!v.videoWidth)return;const[sw,sh,ox,oy]=crop();tcx.drawImage(v,ox,oy,sw,sh,0,0,80,60);let nx=null,ny=null;
  if(!noFD&&window.FaceDetector){try{FD=FD||new FaceDetector({fastMode:true,maxDetectedFaces:6});const f=await FD.detect(tc);if(f.length){nx=f.reduce((a,b)=>a+b.boundingBox.x+b.boundingBox.width/2,0)/f.length/80;ny=f.reduce((a,b)=>a+b.boundingBox.y+b.boundingBox.height/2,0)/f.length/60+.08}}catch(e){noFD=true}}
  if(nx==null){const d=tcx.getImageData(0,0,80,60).data;let n=0,sx=0,sy=0;for(let i=0,p=0;i<d.length;i+=4,p++){const r=d[i],g=d[i+1],b=d[i+2],y=.299*r+.587*g+.114*b,cb=128-.169*r-.331*g+.5*b,cr=128+.5*r-.419*g-.081*b;if(y>60&&cb>77&&cb<127&&cr>133&&cr<173){n++;sx+=p%80;sy+=(p/80|0)}}if(n>60){nx=sx/n/80;ny=sy/n/60}}
@@ -226,6 +229,7 @@ function applyZ(){const b=$('#vf'),W=b.clientWidth,H=b.clientHeight,z=Z.z,cl=(x,
 function frame(){Z.cx+=(Z.tx-Z.cx)*.08;Z.cy+=(Z.ty-Z.cy)*.08;if($('#cam').classList.contains('on'))applyZ();requestAnimationFrame(frame)}
 setInterval(track,180);requestAnimationFrame(frame);
 $('#zm').onclick=e=>{const z=+e.target.dataset.z;if(!z||S.busy)return;Z.z=z;if(z==1){Z.tx=Z.ty=.5}[...$('#zm').children].forEach(b=>b.classList.toggle('sel',+b.dataset.z==z))};
+$('#mir').onclick=e=>{const v=e.target.dataset.mi;if(v==null||S.busy||S.live)return;S.mirror=v=='1';[...$('#mir').children].forEach(b=>b.classList.toggle('sel',b.dataset.mi==v))};
 $('#mode').onclick=e=>{const m=e.target.dataset.m;if(!m||S.busy||S.live)return;S.mode=m;[...$('#mode').children].forEach(b=>b.classList.toggle('sel',b.dataset.m==m));$('#hint').textContent=hintTxt()};
 async function snap(i){const fl=$('#fl');fl.style.transition="none";fl.style.opacity=1;await sleep(40);fl.style.transition="opacity .35s";fl.style.opacity=0;S.photos.push(grab());slots();await preview(i)}
 function finish(){ring(false);S.busy=S.live=false;$('#hint').textContent=hintTxt();showResult()}
@@ -236,7 +240,7 @@ async function shoot(){
   await snap(S.photos.length);S.snapping=false;if(run!=S.run)return;
   if(S.photos.length>=S.n)finish();else $('#hint').textContent=`${tr('photo')} ${S.photos.length+1} ${tr('of')} ${S.n}`;return}
  if(S.busy)return;S.busy=true;ring(true);S.photos=[];slots();const run=++S.run;
- for(let i=0;i<S.n;i++){$('#hint').textContent=tr('ready');await countdown(6,tr('ready'));if(run!=S.run)return;
+ for(let i=0;i<S.n;i++){$('#hint').textContent=tr('ready');await countdown(6,true);if(run!=S.run)return;
   $('#hint').textContent=`${tr('photo')} ${i+1} ${tr('of')} ${S.n}`;await countdown(5);if(run!=S.run)return;await snap(i);if(run!=S.run)return}
  finish()}
 $('#shut').onclick=shoot;$('#vf').onclick=()=>{if(S.mode=="manual")shoot()};
@@ -252,14 +256,15 @@ async function preview(i){const pv=$('#pv'),m=$('#msg');pv.width=960;pv.height=7
  m.textContent=`${tr('photo')} ${i+1} ${tr('of')} ${S.n}`;m.style.top='auto';m.style.bottom='5%';m.hidden=false;m.style.animation='none';
  await sleep(S.mode=='manual'?800:i<S.n-1?1800:900);pv.hidden=true;m.hidden=true}
 // ---------- ring light, countdown, filters ----------
-const MSG=["m1","m2","m3"];let lastM=-1;
+const MSG=["m1","m2","m3"],PREP=["p1","p2","p3","p4","p5"];let lastP=-1;let lastM=-1;
 function ring(on){$('#ring').classList.toggle('on',on);$('#vf').classList.toggle('lit',on);document.body.classList.toggle('ringon',on)}
-async function countdown(k0=5,fixed){const cd=$('#cd'),m=$('#msg');
- for(let k=k0;k>0;k--){cd.textContent=k;cd.classList.toggle('brk',!!fixed);$('#msg').classList.toggle('brk',!!fixed);cd.hidden=false;cd.style.animation='none';void cd.offsetWidth;cd.style.animation='pop .9s ease-out';
-  let j;do{j=Math.floor(Math.random()*MSG.length)}while(j==lastM);lastM=j;
-  const top=fixed||Math.random()<.5;m.textContent=fixed||tr(MSG[j]);m.hidden=false;m.style.top=top?'5%':'auto';m.style.bottom=top?'auto':'5%';
+async function countdown(k0=5,prep){const cd=$('#cd'),m=$('#msg'),ph=$('#phase'),list=prep?PREP:MSG;
+ ph.textContent=tr(prep?'phase1':'phase2');ph.classList.toggle('brk',!!prep);ph.hidden=false;
+ for(let k=k0;k>0;k--){cd.textContent=k;cd.classList.toggle('brk',!!prep);m.classList.toggle('brk',!!prep);cd.hidden=false;cd.style.animation='none';void cd.offsetWidth;cd.style.animation='pop .9s ease-out';
+  let j;do{j=Math.floor(Math.random()*list.length)}while(j==(prep?lastP:lastM));if(prep)lastP=j;else lastM=j;
+  const top=Math.random()<.5;m.textContent=tr(list[j]);m.hidden=false;m.style.top=top?'16%':'auto';m.style.bottom=top?'auto':'5%';
   m.style.animation='none';void m.offsetWidth;m.style.animation='pop .7s ease-out';await sleep(1000)}
- cd.hidden=true;m.hidden=true}
+ cd.hidden=true;m.hidden=true;ph.hidden=true}
 function setF(f){S.filter=f;const vf=$('#vf');vf.classList.remove('f-bw','f-rainbow','f-pink');if(f!="none")vf.classList.add('f-'+f);[...$('#flt').children].forEach(b=>b.classList.toggle('sel',b.dataset.f==f))}
 $('#flt').onclick=e=>{const f=e.target.dataset.f;if(f&&!S.busy)setF(f)};
 function applyFilter(cv,f){if(f=="none")return cv;const x=cv.getContext('2d'),w=cv.width,h=cv.height;
@@ -297,13 +302,13 @@ const K={locked:false,pin:"",taps:0,t:0,wl:null,mode:"lock"};
 const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}};
 $('#hot').src=document.querySelector('.logo').src;
 function fs(){try{const d=document.documentElement,r=d.requestFullscreen||d.webkitRequestFullscreen;if(r){const p=r.call(d);if(p&&p.catch)p.catch(()=>{})}}catch(e){}}
-async function lockOn(){K.locked=true;document.body.classList.add('locked');$('#hot').classList.add('on');fs();
+async function lockOn(){K.locked=true;document.body.classList.add('locked');document.documentElement.style.overscrollBehavior='none';$('#hot').classList.add('on');fs();
  try{if(navigator.wakeLock)K.wl=await navigator.wakeLock.request('screen')}catch(e){}
- try{history.pushState({k:1},'')}catch(e){}}
-function lockOff(){K.locked=false;document.body.classList.remove('locked');$('#hot').classList.remove('on');
+ try{for(let i=0;i<10;i++)history.pushState({k:i},'')}catch(e){}}
+function lockOff(){K.locked=false;document.body.classList.remove('locked');document.documentElement.style.overscrollBehavior='';$('#hot').classList.remove('on');
  try{if(document.fullscreenElement)document.exitFullscreen();else if(document.webkitFullscreenElement)document.webkitExitFullscreen()}catch(e){}
  try{if(K.wl){K.wl.release();K.wl=null}}catch(e){}}
-function pinOpen(m){K.mode=m;$('#pt').textContent=tr(m+'T');$('#pd').textContent=tr(m+'D');$('#po').textContent=tr(m+'B');$('#pi').value='';$('#pe').textContent='';$('#pinm').hidden=false;setTimeout(()=>$('#pi').focus(),50)}
+function pinOpen(m){K.mode=m;$('#pt').textContent=tr(m+'T');$('#pd').textContent=tr(m+'D');$('#pg').textContent=m=='lock'?tr('lockTip'):'';$('#po').textContent=tr(m+'B');$('#pi').value='';$('#pe').textContent='';$('#pinm').hidden=false;setTimeout(()=>$('#pi').focus(),50)}
 function doUnlock(){ls('rr_lock',null);$('#pinm').hidden=true;lockOff();toast(tr('unlockedT'))}
 $('#hot').onclick=()=>{const n=Date.now();K.taps=n-K.t<900?K.taps+1:1;K.t=n;if(K.taps>=3){K.taps=0;if(K.locked){K.pin?pinOpen('unlock'):doUnlock()}else pinOpen('lock')}};
 $('#pc').onclick=()=>{$('#pinm').hidden=true};
@@ -321,5 +326,10 @@ addEventListener('dblclick',e=>{if(K.locked)e.preventDefault()});
 addEventListener('touchmove',e=>{if(K.locked&&e.touches.length>1)e.preventDefault()},{passive:false});
 addEventListener('keydown',e=>{if(K.locked&&(e.ctrlKey||e.metaKey||e.key=='F5'||e.key=='F11'))e.preventDefault()});
 document.addEventListener('visibilitychange',async()=>{if(K.locked&&document.visibilityState=='visible'){try{if(navigator.wakeLock)K.wl=await navigator.wakeLock.request('screen')}catch(e){}}});
+let lastAct=Date.now(),hid=0;
+function resetSession(){S.photos=[];S.blob=null;$('#out').removeAttribute('src');go('home')}
+addEventListener('pointerdown',()=>{lastAct=Date.now()},true);
+setInterval(()=>{if(K.locked&&!S.busy&&!S.live&&Date.now()-lastAct>120000&&($('#res').classList.contains('on')||$('#cam').classList.contains('on')))resetSession()},5000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState=='hidden')hid=Date.now();else if(K.locked&&hid&&Date.now()-hid>3000&&!S.busy&&!S.live&&!$('#home').classList.contains('on'))resetSession()});
 K.pin=ls('rr_pin')||'';if(ls('rr_lock')=='1')lockOn();
 </script></body></html>
